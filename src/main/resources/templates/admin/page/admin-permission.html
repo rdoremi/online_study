@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>tree-table</title>
+    <base href="/">
+    <link rel="stylesheet" href="static/treetable-lay/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="static/treetable-lay/assets/common.css"/>
+    <script type="text/javascript" src="xadmin/js/xadmin.js"></script>
+    <script src="layui/layui.js" ></script>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+</head>
+<body>
+<div class="layui-container layui-text">
+<br>
+<br>
+<div class="layui-btn-group">
+    <button class="layui-btn" id="btn-expand">全部展开</button>
+    <button class="layui-btn" id="btn-fold">全部折叠</button>
+    <button class="layui-btn" id="btn-refresh">刷新表格</button>
+</div>
+&nbsp;
+<div class="layui-btn-group">
+    <a class="layui-btn layui-btn-normal"onclick="xadmin.open('添加权限','/admin/page/getPage?pageName=admin/page/permission-add-pid',600,300)">添加父权限</a>
+    <a class="layui-btn layui-btn-normal" onclick="xadmin.open('添加权限','/admin/page/getPage?pageName=admin/page/permission-add',600,300)">添加子权限</a>
+
+</div>
+
+<table id="table1" class="layui-table" lay-filter="table1"></table>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="oper-col">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script th:inline="none">
+    layui.config({
+        base: 'static/treetable-lay/module/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['layer', 'table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: 0,
+                treeIdName: 'id',
+                treePidName: 'parentId',
+                treeDefaultClose: true,
+                treeLinkage: false,
+                elem: '#table1',
+                url: '/sys/permission/get_list',
+                page: false,
+                cols: [[
+                    {type: 'numbers'},
+                    {field: 'name', title: '名称'},
+                    {field: 'permission', title: '权限'},
+                    {field: 'id', title: 'ID'},
+                    {field: 'parentId', title: '父ID'},
+                    {templet: '#oper-col', title: '操作'}
+                ]]
+
+                /*, parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "ok", //解析提示文本
+                    "count": 0, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            }*/,
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+
+        renderTable();
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#table1');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#table1');
+        });
+
+        $('#btn-refresh').click(function () {
+            renderTable();
+        });
+
+        //监听工具条
+        table.on('tool(table1)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent === 'del') {
+                layer.msg('删除' + data.id);
+            } else if (layEvent === 'edit') {
+                layer.msg('修改' + data.id);
+            }
+        });
+    });
+</script>
+</body>
+</html>

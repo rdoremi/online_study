@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.online.study.dao.CourseDao">
+
+    <resultMap type="com.online.study.entity.Course" id="CourseMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="desc" column="desc" jdbcType="VARCHAR"/>
+        <result property="cover" column="cover" jdbcType="VARCHAR"/>
+        <result property="classId" column="class_id" jdbcType="INTEGER"/>
+        <result property="studentNum" column="student_num" jdbcType="INTEGER"/>
+        <result property="stId" column="st_id" jdbcType="INTEGER"/>
+        <result property="isStart" column="is_start" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CourseMap">
+        select
+          id, title, desc, cover, class_id, student_num, st_id, is_start, create_time, update_time
+        from online_study.course
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CourseMap">
+        select
+          id, title, desc, cover, class_id, student_num, st_id, is_start, create_time, update_time
+        from online_study.course
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CourseMap">
+        select
+          id, title, desc, cover, class_id, student_num, st_id, is_start, create_time, update_time
+        from online_study.course
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="desc != null and desc != ''">
+                and desc = #{desc}
+            </if>
+            <if test="cover != null and cover != ''">
+                and cover = #{cover}
+            </if>
+            <if test="classId != null">
+                and class_id = #{classId}
+            </if>
+            <if test="studentNum != null">
+                and student_num = #{studentNum}
+            </if>
+            <if test="stId != null">
+                and st_id = #{stId}
+            </if>
+            <if test="isStart != null">
+                and is_start = #{isStart}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into online_study.course(title, desc, cover, class_id, student_num, st_id, is_start, create_time, update_time)
+        values (#{title}, #{desc}, #{cover}, #{classId}, #{studentNum}, #{stId}, #{isStart}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update online_study.course
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="desc != null and desc != ''">
+                desc = #{desc},
+            </if>
+            <if test="cover != null and cover != ''">
+                cover = #{cover},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="studentNum != null">
+                student_num = #{studentNum},
+            </if>
+            <if test="stId != null">
+                st_id = #{stId},
+            </if>
+            <if test="isStart != null">
+                is_start = #{isStart},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from online_study.course where id = #{id}
+    </delete>
+
+</mapper>

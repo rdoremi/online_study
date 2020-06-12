@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.online.study.dao.SysRolePermissionDao">
+
+    <resultMap type="com.online.study.entity.SysRolePermission" id="SysRolePermissionMap">
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+        <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysRolePermissionMap">
+        select
+          role_id, permission_id
+        from online_study.sys_role_permission
+        where role_id = #{roleId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysRolePermissionMap">
+        select
+          role_id, permission_id
+        from online_study.sys_role_permission
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysRolePermissionMap">
+        select
+          role_id, permission_id
+        from online_study.sys_role_permission
+        <where>
+            <if test="roleId != null">
+                and role_id = #{roleId}
+            </if>
+            <if test="permissionId != null">
+                and permission_id = #{permissionId}
+            </if>
+        </where>
+    </select>
+    <select id="selectListByRolId" resultMap="SysRolePermissionMap">
+        SELECT * FROM sys_role_permission WHERE role_id = #{roleId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="roleId" useGeneratedKeys="true">
+        insert into online_study.sys_role_permission(permission_id)
+        values (#{permissionId})
+    </insert>
+
+    <!--将所有信息插入PP表里面，传入参数为list,通过<foreach>来遍历list-->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into sys_role_permission (role_id, permission_id) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.permissionId})
+        </foreach>
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update online_study.sys_role_permission
+        <set>
+            <if test="permissionId != null">
+                permission_id = #{permissionId},
+            </if>
+        </set>
+        where role_id = #{roleId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from online_study.sys_role_permission where role_id = #{roleId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.online.study.dao.SysRoleDao">
+
+    <resultMap type="com.online.study.entity.SysRole" id="SysRoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="discription" column="discription" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysRoleMap">
+        select
+          id, name, discription, create_time, update_time
+        from online_study.sys_role
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysRoleMap">
+        select
+          id, name, discription, create_time, update_time
+        from online_study.sys_role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysRoleMap">
+        select
+          id, name, discription, create_time, update_time
+        from online_study.sys_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="discription != null and discription != ''">
+                and discription = #{discription}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+    <select id="selectList" resultMap="SysRoleMap">
+        SELECT   id, `name`, discription, create_time, update_time FROM sys_role
+    </select>
+    <select id="checkByName" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM sys_role WHERE `name` = #{name}
+    </select>
+    <select id="selectByName" resultMap="SysRoleMap">
+        SELECT id FROM sys_role WHERE `name` = #{name}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into online_study.sys_role(name, discription, create_time)
+        values (#{name}, #{discription}, now())
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update online_study.sys_role
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="discription != null and discription != ''">
+                discription = #{discription},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById"  parameterType="int" >
+        delete FROM sys_role where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.online.study.dao.UserDao">
+
+    <resultMap type="com.online.study.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="idcart" column="idcart" jdbcType="VARCHAR"/>
+        <result property="stId" column="st_id" jdbcType="VARCHAR"/>
+        <result property="classId" column="class_id" jdbcType="INTEGER"/>
+        <result property="collegeId" column="college_id" jdbcType="INTEGER"/>
+        <result property="universityId" column="university_id" jdbcType="INTEGER"/>
+        <result property="role" column="role" jdbcType="INTEGER"/>
+        <result property="headImg" column="head_img" jdbcType="VARCHAR"/>
+        <result property="question" column="question" jdbcType="VARCHAR"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id,tel, password, `name`, nickname, email, sex, age, idcart, st_id, class_id, college_id, university_id, role, head_img, question, answer, create_time, update_time
+    </sql>
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+          id, tel, password, name, nickname, email, sex, age, idcart, st_id, class_id, college_id, university_id, role, head_img, question, answer, create_time, update_time
+        from online_study.user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+          id, tel, password, name, nickname, email, sex, age, idcart, st_id, class_id, college_id, university_id, role, head_img, question, answer, create_time, update_time
+        from online_study.user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserMap">
+        select
+          id, tel, password, name, nickname, email, sex, age, idcart, st_id, class_id, college_id, university_id, role, head_img, question, answer, create_time, update_time
+        from online_study.user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname = #{nickname}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="idcart != null and idcart != ''">
+                and idcart = #{idcart}
+            </if>
+            <if test="stId != null and stId != ''">
+                and st_id = #{stId}
+            </if>
+            <if test="classId != null">
+                and class_id = #{classId}
+            </if>
+            <if test="collegeId != null">
+                and college_id = #{collegeId}
+            </if>
+            <if test="universityId != null">
+                and university_id = #{universityId}
+            </if>
+            <if test="role != null">
+                and role = #{role}
+            </if>
+            <if test="headImg != null and headImg != ''">
+                and head_img = #{headImg}
+            </if>
+            <if test="question != null and question != ''">
+                and question = #{question}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+    <select id="checked" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user WHERE tel = #{tel}
+    </select>
+    <select id="loginBytel" resultMap="UserMap">
+        SELECT <include refid="Base_Colum_List"/>
+        FROM user WHERE tel = #{tel}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into online_study.user(tel, password, name, nickname, email, sex, age, idcart, st_id, class_id, college_id, university_id, role, head_img, question, answer, create_time, update_time)
+        values (#{tel}, #{password}, #{name}, #{nickname}, #{email}, #{sex}, #{age}, #{idcart}, #{stId}, #{classId}, #{collegeId}, #{universityId}, #{role}, #{headImg}, #{question}, #{answer}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="register">
+        insert into user (tel, password, name,create_time)
+        values (#{tel},#{password},#{name},now());
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update online_study.user
+        <set>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="idcart != null and idcart != ''">
+                idcart = #{idcart},
+            </if>
+            <if test="stId != null and stId != ''">
+                st_id = #{stId},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="collegeId != null">
+                college_id = #{collegeId},
+            </if>
+            <if test="universityId != null">
+                university_id = #{universityId},
+            </if>
+            <if test="role != null">
+                role = #{role},
+            </if>
+            <if test="headImg != null and headImg != ''">
+                head_img = #{headImg},
+            </if>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from online_study.user where id = #{id}
+    </delete>
+
+</mapper>

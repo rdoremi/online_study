@@ -1,0 +1,118 @@
+{
+  "authorities": [
+    {
+      "authority": "sys:sys:update"
+    },
+    {
+      "authority": "sys:user:update"
+    },
+    {
+      "authority": "sys:user:add"
+    },
+    {
+      "authority": "sys:user:updatePassword"
+    },
+    {
+      "authority": "sys:user:find"
+    },
+    {
+      "authority": "sys:sys:add"
+    },
+    {
+      "authority": "sys:user:del"
+    }
+  ],
+  "details": {
+    "remoteAddress": "0:0:0:0:0:0:0:1",
+    "sessionId": "38FCCD71D8FEFD8FAF6FF7223FA97A16"
+  },
+  "authenticated": true,
+  "principal": {
+    "id": 1,
+    "tel": "15085554536",
+    "password": "$2a$10$oMlLnDs4wh6PfoPj9WoXhODTTvOSL5/gR2kPUMMqlC.vFCGm8XiPG",
+    "name": "??",
+    "nickname": "doremi",
+    "roleId": 3,
+    "headImg": null,
+    "email": "24324324@qq.com",
+    "sex": "?",
+    "age": 23,
+    "idcart": "522127199610207639",
+    "status": 2,
+    "createTime": "2020-04-06 14:59:45",
+    "updateTime": null,
+    "permissions": [
+      {
+        "id": 3,
+        "parentId": 1,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:user:del",
+        "sort": null
+      },
+      {
+        "id": 4,
+        "parentId": 1,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:user:find",
+        "sort": null
+      },
+      {
+        "id": 5,
+        "parentId": 1,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:user:update",
+        "sort": null
+      },
+      {
+        "id": 6,
+        "parentId": 1,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:user:add",
+        "sort": null
+      },
+      {
+        "id": 8,
+        "parentId": 1,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:user:updatePassword",
+        "sort": null
+      },
+      {
+        "id": 7,
+        "parentId": 2,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:sys:update",
+        "sort": null
+      },
+      {
+        "id": 9,
+        "parentId": 2,
+        "name": "????",
+        "href": null,
+        "type": null,
+        "permission": "sys:sys:add",
+        "sort": null
+      }
+    ],
+    "enabled": true,
+    "username": null,
+    "accountNonExpired": true,
+    "credentialsNonExpired": true,
+    "accountNonLocked": true
+  },
+  "credentials": null,
+  "name": null
+}
